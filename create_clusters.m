@@ -40,7 +40,8 @@ for ii = 2:m
     denominator = sum(myIDD, 2) + a;
     
     for jj = 1:size(clusters,2)
-        [prob(jj)] = calculate_probability(IDD,myIDD,a,ii,clusters{jj},denominator);
+        numerator = calculate_numerator(IDD,myIDD,a,ii,clusters{jj});
+        prob(jj) = numerator/denominator(ii);
     end
     % probability it forms it's own cluster
     prob(size(clusters,2)+1) = a/denominator(ii);
@@ -55,35 +56,23 @@ for ii = 2:m
         error('Probabilities don''t sum up to one');
     end
     
-    cumsum_prob = cumsum(prob);
-    
-    ball = rand;
-    
-    matched = 0;
-    for jj = 1:(size(cumsum_prob,2)-1)
-        if ball < cumsum_prob(jj)
-            clusters{jj} = [clusters{jj}, ii];
-            matched = 1;
-            break;
-        end
+    cluster_number = find_matching_cluster(prob);
+    if cluster_number < size(prob,2)
+        clusters{cluster_number} = [clusters{cluster_number}, ii];
+    else
+        clusters{cluster_number} = ii;
     end
-    if matched == 0
-        clusters{size(cumsum_prob,2)} = ii;
-    end
+    
 end
 
 end
 
-function [prob] = calculate_probability(IDD, myIDD, a, node, cluster, denominator)
-%     sum_of_rows = sum(IDD, 2);
-%     denominator = sum_of_rows + a;
-    prob = 0;
+function numerator = calculate_numerator(IDD, myIDD, a, node, cluster)
+    numerator = 0;
     
     for ii = 1:size(cluster,2)
-        prob = prob + IDD(node,cluster(ii));
+        numerator = numerator + IDD(node,cluster(ii));
     end
-%     denominator = sum(myIDD, 2) + a;
-    prob = prob/denominator(node);
 end
 
 function myIDD = fill_myIDD(IDD, myIDD, node,cluster)
@@ -96,9 +85,22 @@ function myIDD = fill_myIDD(IDD, myIDD, node,cluster)
     end
 end
 
-% function cluster = find_matching_cluster(IDD, a, clusters)
-%     
-%    
-%         
-% end
+function cluster = find_matching_cluster(prob)
+
+    cumsum_prob = cumsum(prob);
+    
+    ball = rand;
+    
+    matched = 0;
+    for jj = 1:(size(cumsum_prob,2)-1)
+        if ball < cumsum_prob(jj)
+            cluster = jj;
+            matched = 1;
+            break;
+        end
+    end
+    if matched == 0
+        cluster = size(cumsum_prob,2);
+    end    
+end
 
