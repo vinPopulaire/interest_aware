@@ -19,32 +19,21 @@ IDD(isinf(IDD)) = 0;
 
 myIDD = zeros(size(IDD));
 
-% % The sum of the rows is Sum(IDD(m,m')) for all m' for a node m.
-% sum_of_rows = sum(IDD, 2);
-% 
-% denominator = sum_of_rows + a;
-
 m = size(IDD,1);
 
+% put first device in it's own cluster
 clusters = {};
 clusters{1} = 1;
 
+% repeat for all other devices
 for ii = 2:m
-    prob = zeros(1,size(clusters,2)+1);
     
     % fill myIDD to get the right denominator
     for jj = 1:size(clusters,2)
         myIDD = fill_myIDD(IDD,myIDD,ii,clusters{jj});
     end
     
-    denominator = sum(myIDD, 2) + a;
-    
-    for jj = 1:size(clusters,2)
-        numerator = calculate_numerator(IDD,myIDD,a,ii,clusters{jj});
-        prob(jj) = numerator/denominator(ii);
-    end
-    % probability it forms it's own cluster
-    prob(size(clusters,2)+1) = a/denominator(ii);
+    prob = calculate_probabilities(IDD, myIDD, a, ii, clusters);
     
     % round to remove decimal points after the 4th digit
     sum_prob=round((sum(prob)*10^4)/10^4);
@@ -67,7 +56,21 @@ end
 
 end
 
-function numerator = calculate_numerator(IDD, myIDD, a, node, cluster)
+
+function prob = calculate_probabilities(IDD, myIDD, a, ii, clusters)
+    prob = zeros(1,size(clusters,2)+1);
+    
+    denominator = sum(myIDD, 2) + a;
+    
+    for jj = 1:size(clusters,2)
+        numerator = calculate_numerator(IDD,ii,clusters{jj});
+        prob(jj) = numerator/denominator(ii);
+    end
+    % probability it forms it's own cluster
+    prob(size(clusters,2)+1) = a/denominator(ii);
+end
+
+function numerator = calculate_numerator(IDD, node, cluster)
     numerator = 0;
     
     for ii = 1:size(cluster,2)
