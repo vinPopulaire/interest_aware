@@ -1,6 +1,9 @@
 clc;
 clear;
 
+rng(2)
+
+
 % PARAMETERS
 %  m          - number of devices
 %  a          - probability for device to form own cluster

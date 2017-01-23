@@ -10,8 +10,6 @@ function [E_i,E_d]=create_matrices(m)
 %  E_i        - [m x m] Interest Distance graph weights
 %  E_d        - [m x m] Physical Distance graph weights
 
-rng(2)
-
 E_i = create_level_of_interest_matrix(m);
 E_d = create_distance_matrix(m);
 
