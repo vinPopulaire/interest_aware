@@ -11,12 +11,14 @@ function clusters = create_clusters(ID, D, a, w_1, w_2)
 %  w_2        - weight for D in cluster creation
 %
 % OUTPUTS
-%  clusters   - [1 x X] cell array with corresponding clusters
+%  clusters   - [1 x c] cell array with corresponding clusters
 
 IDD = w_1.*(1./ID) + w_2.*D;
 % remove Inf in diagonal so that it doesn't connect to itself
 IDD(isinf(IDD)) = 0;
 
+% myIDD will be filled with IDD values as the devices enter into clusters
+% so that the denominator in the equation is correctly calculated
 myIDD = zeros(size(IDD));
 
 m = size(IDD,1);
