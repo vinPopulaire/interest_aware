@@ -59,17 +59,17 @@ end
 end
 
 
-function prob = calculate_probabilities(IDD, myIDD, a, ii, clusters)
+function prob = calculate_probabilities(IDD, myIDD, a, node, clusters)
     prob = zeros(1,size(clusters,2)+1);
     
     denominator = sum(myIDD, 2) + a;
     
     for jj = 1:size(clusters,2)
-        numerator = calculate_numerator(IDD,ii,clusters{jj});
-        prob(jj) = numerator/denominator(ii);
+        numerator = calculate_numerator(IDD,node,clusters{jj});
+        prob(jj) = numerator/denominator(node);
     end
     % probability it forms it's own cluster
-    prob(size(clusters,2)+1) = a/denominator(ii);
+    prob(size(clusters,2)+1) = a/denominator(node);
 end
 
 function numerator = calculate_numerator(IDD, node, cluster)
