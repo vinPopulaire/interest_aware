@@ -22,6 +22,7 @@ clusterheads = zeros(1,c);
 
 for ii = 1:c
     
+    % if cluster has only one member, assign that as clusterhead
     if size(clusters{ii},2) == 1
         clusterheads(ii) = clusters{ii};
         continue
@@ -40,32 +41,50 @@ for ii = 1:c
     Do = mean(mean(sub_D));
     Eo = mean(sub_E);
     
-    w = zeros(size(sub_ID));
+    w = assign_weights(sub_ID, IDo, sub_D, Do, sub_E, Eo, num_members, wb_1, wb_2, wb_3);
 
-    for jj = 1:num_members
-        for kk = jj+1:num_members
-            w(jj,kk) = (wb_1/IDo)*sub_ID(jj,kk) + (wb_2*Do)/sub_D(jj,kk) + (wb_3*Eo)/max(sub_E(jj),sub_E(kk));
-        end
-    end
-    w = w + triu(w,1)';
+    sp = find_shortest_paths(w, num_members);
     
-    sp = zeros(size(w));
-    for jj = 1:num_members
-        sp(jj,:) = simple_dijkstra(w,jj);
-    end
+    CC = find_centralities(sp, num_members);
     
-    sum_sp = sum(sp,2);
-    
-    CC = zeros(1,size(sp,2));
-    for jj = 1:num_members
-        CC(jj) = (num_members-1)/sum_sp(jj);
-    end
-    
-    [max_val, max_val_index] = max(CC);
+    [~, max_val_index] = max(CC);
     
     clusterheads(ii) = clusters{ii}(max_val_index);
     
 end
 
+end
+
+
+function CC = find_centralities(sp, num_members)
+    
+    sum_sp = sum(sp,2);
+    
+    CC = zeros(1,size(sp,2));
+    for ii = 1:num_members
+        CC(ii) = (num_members-1)/sum_sp(ii);
+    end
+    
+end
+
+function sp = find_shortest_paths(w, num_members)
+
+    sp = zeros(size(w));
+    for ii = 1:num_members
+        sp(ii,:) = simple_dijkstra(w,ii);
+    end
+    
+end
+
+function w = assign_weights(sub_ID, IDo, sub_D, Do, sub_E, Eo, num_members, wb_1, wb_2, wb_3)
+
+    w = zeros(size(sub_ID));
+    for ii = 1:num_members
+        for jj = ii+1:num_members
+            w(ii,jj) = (wb_1/IDo)*sub_ID(ii,jj) + (wb_2*Do)/sub_D(ii,jj) + (wb_3*Eo)/max(sub_E(ii),sub_E(jj));
+        end
+    end
+    w = w + triu(w,1)';
+    
 end
 
