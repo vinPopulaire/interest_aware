@@ -9,9 +9,11 @@ function bests_powers = utility_func(powers, G, cluster, clusterhead)
 %  clusterhead - id of the clusterhead
 %
 % OUTPUTS
-%  scores    - [1 x y] array with the score of the utility function
+%  bests_powers    - [1 x y] array with the best response powers of every device
 
 % PARAMETERS
+% W -> bandwidth
+% Io -> constant power spectral density
 W = 10^6;
 Io = 0.2;
 
