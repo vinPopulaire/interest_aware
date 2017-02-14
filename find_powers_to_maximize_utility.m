@@ -10,11 +10,10 @@ function powers = find_powers_to_maximize_utility(cluster,clusterhead, distances
 % OUTPUTS
 %  powers      - [1 x y] array with powers needed for transmission
 
-% G   ->channel gain
-% a=2 -> indoor only communication
-
 num_devices = size(cluster,2);
 
+% G   ->channel gain
+% a=2 -> indoor only communication
 G = zeros(num_devices,num_devices);
 a = 2;
 
@@ -26,16 +25,16 @@ for ii = 1:num_devices
     end
 end
 
-last_powers = zeros(1, num_devices);
-
 % arbitrarily set all starting powers to 0.5
 current_powers = 0.5*ones(1, num_devices);
+last_powers = zeros(1, num_devices);
 
 while sum(abs(current_powers-last_powers)) > 10^-5
-    last_powers = current_powers;
+    
+    last_powers = current_powers
     
     current_powers = utility_func(last_powers, G, cluster, clusterhead);
-    
+   
 end
 
 powers = current_powers;
