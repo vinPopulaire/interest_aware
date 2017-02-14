@@ -54,8 +54,8 @@ end
 function f = efficiency_function(gamma)
 
 M = 80;
-A = 0.5;
+A = 1.2;
 
-f = (1-eps^(-A*gamma))^M;
+f = (1-exp(-A*gamma))^M;
 
 end
