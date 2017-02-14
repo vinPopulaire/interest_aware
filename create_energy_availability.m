@@ -8,7 +8,7 @@ function E = create_energy_availability(m)
 % OUTPUTS
 %  E        - [m x 1] Energy availability for every device
 
-E = rand(m,1);
+E = 2*ones(m,1);
 
 end
 
