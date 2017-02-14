@@ -39,3 +39,10 @@ clusters = create_clusters(ID, D, a, wa_1, wa_2);
 E = create_energy_availability(m);
 
 clusterheads = find_clusterheads(clusters, ID, D, E, wb_1, wb_2, wb_3);
+
+num_clusters = size(clusters,2);
+requested_powers = {};
+for ii = 1:num_clusters
+    distances = submatrix(E_d, clusters{ii});
+    requested_powers{ii} = find_powers_to_maximize_utility(clusters{ii},clusterheads(ii),distances);
+end
