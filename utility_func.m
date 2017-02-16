@@ -1,4 +1,4 @@
-function bests_powers = utility_func(powers, G, cluster, clusterhead)
+function best_powers = utility_func(powers, G, cluster, clusterhead)
 % USAGE
 %  score = utility_func(powers)
 %
@@ -9,7 +9,7 @@ function bests_powers = utility_func(powers, G, cluster, clusterhead)
 %  clusterhead - id of the clusterhead
 %
 % OUTPUTS
-%  bests_powers    - [1 x y] array with the best response powers of every device
+%  best_powers    - [1 x y] array with the best response powers of every device
 
 % PARAMETERS
 % W -> bandwidth
@@ -37,7 +37,7 @@ for ii = 1:num_devices
     sensed_interference(ii) = sensed_interference(ii) + Io;
 end
 
-bests_powers = zeros(1,num_devices);
+best_powers = zeros(1,num_devices);
 for ii = 1:num_devices
     if cluster(ii) == clusterhead
         continue;
@@ -48,8 +48,8 @@ for ii = 1:num_devices
     
     % We add a '-' because the fminbnd tries to minimize the function
     % provided
-    fun = @(x)-W*efficiency_function(G(ii,head_index)*x/sensed_interference(ii))/x;
-    bests_powers(ii) = fminbnd(fun,0,1);
+    fun = @(x)-(W*efficiency_function(G(ii,head_index)*x/sensed_interference(ii))/x);
+    best_powers(ii) = fminbnd(fun,0,100);
 end
 
 end
@@ -58,7 +58,7 @@ end
 function f = efficiency_function(gamma)
 
 M = 80;
-A = 1.2;
+A = 62.5;
 
 f = (1-exp(-A*gamma))^M;
 
