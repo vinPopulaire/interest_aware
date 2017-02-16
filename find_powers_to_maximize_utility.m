@@ -23,11 +23,14 @@ for ii = 1:num_devices
         G(ii,jj) = 0.097/distances(ii,jj)^a;
         G(jj,ii) = G(ii,jj);
     end
+    G(ii,ii) = 0;
 end
 
 % arbitrarily set all starting powers to 0.5
 current_powers = 0.5*ones(1, num_devices);
 last_powers = zeros(1, num_devices);
+
+iter = 0;
 
 while sum(abs(current_powers-last_powers)) > 10^-5
     
@@ -35,8 +38,11 @@ while sum(abs(current_powers-last_powers)) > 10^-5
     
     current_powers = utility_func(last_powers, G, cluster, clusterhead);
    
+    iter = iter + 1;
 end
 
+disp('Number of iterations for convergence');
+disp(iter);
 powers = current_powers;
 
 end
