@@ -3,9 +3,9 @@ function powers = find_powers_to_maximize_utility(clusters,clusterheads, distanc
 %  powers = find_powers_to_maximize_utility(cluster,clusterhead, distances)
 %
 % INPUTS
-%  cluster   - [1 x y] array with ids of nodes in cluster
-%  clusterhead - id of the clusterhead
-%  distances   - physical distance between nodes of cluster
+%  clusters     - [1 x m] cells with[1 x y] array with ids of nodes in cluster
+%  clusterheads - [1 x m] ids of the clusterhead
+%  distances    - physical distance between nodes of cluster
 %
 % OUTPUTS
 %  powers      - [1 x y] array with powers needed for transmission
