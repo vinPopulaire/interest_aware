@@ -19,6 +19,7 @@ IDD(isinf(IDD)) = 0;
 
 % myIDD will be filled with IDD values as the devices enter into clusters
 % so that the denominator in the equation is correctly calculated
+% It will only contain nodes that have already been put in a cluster
 myIDD = zeros(size(IDD));
 
 m = size(IDD,1);
@@ -30,7 +31,9 @@ clusters{1} = 1;
 % repeat for all other devices
 for ii = 2:m
     
-    % fill myIDD to get the right denominator
+    % fill myIDD to get the right denominator as discussed above
+    % will add corresponding entries in IDD of the node with every other
+    % node that already exists in the clusters
     for jj = 1:size(clusters,2)
         myIDD = fill_myIDD(IDD,myIDD,ii,clusters{jj});
     end
@@ -48,6 +51,9 @@ for ii = 2:m
     end
     
     cluster_number = find_matching_cluster(prob);
+    
+    % if it is in it's own cluster (last cluster), create a new entry
+    % else append it to the other nodes of the cluster
     if cluster_number < size(prob,2)
         clusters{cluster_number} = [clusters{cluster_number}, ii];
     else
@@ -96,16 +102,11 @@ function cluster = find_matching_cluster(prob)
     
     ball = rand;
     
-    matched = 0;
-    for jj = 1:(size(cumsum_prob,2)-1)
+    for jj = 1:(size(cumsum_prob,2))
         if ball < cumsum_prob(jj)
             cluster = jj;
-            matched = 1;
             break;
         end
     end
-    if matched == 0
-        cluster = size(cumsum_prob,2);
-    end    
 end
 
