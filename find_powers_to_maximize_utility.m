@@ -1,4 +1,4 @@
-function powers = find_powers_to_maximize_utility(cluster,clusterhead, distances)
+function powers = find_powers_to_maximize_utility(clusters,clusterheads, distances)
 % USAGE
 %  powers = find_powers_to_maximize_utility(cluster,clusterhead, distances)
 %
@@ -10,15 +10,18 @@ function powers = find_powers_to_maximize_utility(cluster,clusterhead, distances
 % OUTPUTS
 %  powers      - [1 x y] array with powers needed for transmission
 
-num_devices = size(cluster,2);
+num_all_devices = size(distances,2);
 
 % G   ->channel gain
 % a=2 -> indoor only communication
-G = zeros(num_devices,num_devices);
+G = zeros(num_all_devices,num_all_devices);
 a = 2;
 
-for ii = 1:num_devices
-    for jj = ii:num_devices
+% Calculate channel gain for all devices
+% (not only those of the cluster) because all contribute to the
+% interference detected
+for ii = 1:num_all_devices
+    for jj = ii:num_all_devices
 %         G(ii,jj) = lognrnd(0,1.84)/distances(ii,jj);
         G(ii,jj) = 0.097/distances(ii,jj)^a;
         G(jj,ii) = G(ii,jj);
@@ -27,16 +30,16 @@ for ii = 1:num_devices
 end
 
 % arbitrarily set all starting powers to 0.5
-current_powers = 0.5*ones(1, num_devices);
-last_powers = zeros(1, num_devices);
+current_powers = 0.5*ones(1, num_all_devices);
+previous_powers = zeros(1, num_all_devices);
 
 iter = 0;
 
-while sum(abs(current_powers-last_powers)) > 10^-5
+while sum(abs(current_powers-previous_powers)) > 10^-5
     
-    last_powers = current_powers
-    
-    current_powers = utility_func(last_powers, G, cluster, clusterhead);
+    previous_powers = current_powers;
+   
+    current_powers = utility_func(previous_powers, G, clusters, clusterheads);
    
     iter = iter + 1;
 end
