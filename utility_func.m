@@ -21,6 +21,8 @@ Io = 0.2;
 
 num_all_devices = size(G, 2);
 
+% Sensed Interference from all devices not just those inside cluster
+% since all contribute to the interference detected
 sensed_interference = zeros(1,num_all_devices);
 for ii = 1:num_all_devices
     for jj = 1:num_all_devices

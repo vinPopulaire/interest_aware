@@ -19,7 +19,7 @@ a = 2;
 
 % Calculate channel gain for all devices
 % (not only those of the cluster) because all contribute to the
-% interference detected
+% interference detected (will be needed later)
 for ii = 1:num_all_devices
     for jj = ii:num_all_devices
 %         G(ii,jj) = lognrnd(0,1.84)/distances(ii,jj);
