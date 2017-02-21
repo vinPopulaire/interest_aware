@@ -23,7 +23,7 @@ a = 2;
 for ii = 1:num_all_devices
     for jj = ii:num_all_devices
 %         G(ii,jj) = lognrnd(0,1.84)/distances(ii,jj);
-        G(ii,jj) = 0.097/distances(ii,jj)^a;
+        G(ii,jj) = 0.097/(distances(ii,jj)^a);
         G(jj,ii) = G(ii,jj);
     end
     G(ii,ii) = 0;
