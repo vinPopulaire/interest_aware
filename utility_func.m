@@ -43,8 +43,6 @@ for kk = 1:num_clusters
     clusterhead = clusterheads(kk);
     
     num_devices = size(cluster,2);
-    % keep the index of the clusterhead for later use
-    head_index = arrayfun(@(x) find(cluster == x,1,'first'), clusterhead);
     
     for ii = 1:num_devices
         if cluster(ii) == clusterhead
@@ -53,7 +51,7 @@ for kk = 1:num_clusters
 
         % We add a '-' because the fminbnd tries to minimize the function
         % provided
-        fun = @(x)(-(W*efficiency_function(G(cluster(ii),cluster(head_index))*x/sensed_interference(cluster(ii)))/x));
+        fun = @(x)(-(W*efficiency_function(G(cluster(ii),clusterhead)*x/sensed_interference(cluster(ii)))/x));
         best_powers(cluster(ii)) = fminbnd(fun,0,100);
     end
 end
@@ -63,8 +61,8 @@ end
 
 function f = efficiency_function(gamma)
 
-M = 2;
-A = 80;
+M = 80;
+A = 300;
 
 f = (1-exp(-A*gamma))^M;
 
