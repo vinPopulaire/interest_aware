@@ -1,4 +1,4 @@
-function clusters = create_clusters(ID, D, a, w_1, w_2)
+function clusters = create_clusters(ID, D, params)
 
 % USAGE
 %  clusters = create_clusters( ID, D, a, w_1, w_2 )
@@ -13,7 +13,7 @@ function clusters = create_clusters(ID, D, a, w_1, w_2)
 % OUTPUTS
 %  clusters   - [1 x c] cell array with corresponding clusters
 
-IDD = w_1.*(1./ID) + w_2.*D;
+IDD = params.wa_1.*(1./ID) + params.wa_2.*D;
 % remove Inf in diagonal so that it doesn't connect to itself
 IDD(isinf(IDD)) = 0;
 
@@ -38,7 +38,7 @@ for ii = 2:m
         myIDD = fill_myIDD(IDD,myIDD,ii,clusters{jj});
     end
     
-    prob = calculate_probabilities(IDD, myIDD, a, ii, clusters);
+    prob = calculate_probabilities(IDD, myIDD, params.a, ii, clusters);
     
     % round to remove decimal points after the 4th digit
     sum_prob=round((sum(prob)*10^4)/10^4);

@@ -1,4 +1,4 @@
-function power = find_powers_clusterheads_must_transmit(powers_requested,clusters,clusterheads, G, alpha, n)
+function power = find_powers_clusterheads_must_transmit(powers_requested,clusters,clusterheads, G, params)
 % USAGE
 %  power = find_powers_clusterheads_must_transmit(powers_requested,clusters,clusterheads)
 %
@@ -26,7 +26,7 @@ for kk = 1:num_clusters
     
     for ii = 1:num_devices
         if (cluster(ii) ~= clusterhead)
-            powers_to_send(ii) = powers_of_devices(ii)*(1-alpha)/(n*alpha*G(cluster(ii),clusterhead));
+            powers_to_send(ii) = powers_of_devices(ii)*(1-params.alpha)/(params.n*params.alpha*G(cluster(ii),clusterhead));
         end
     end
     

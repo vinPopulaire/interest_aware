@@ -1,4 +1,4 @@
-function clusterheads = find_clusterheads(clusters, ID, D, E, wb_1, wb_2, wb_3)
+function clusterheads = find_clusterheads(clusters, ID, D, E, params)
 
 % USAGE
 %  clusterheads = find_clusterheads(ID, D, wb_1, wb_2, wb_3)
@@ -41,7 +41,7 @@ for ii = 1:c
     Do = mean(mean(sub_D));
     Eo = mean(sub_E);
     
-    w = assign_weights(sub_ID, IDo, sub_D, Do, sub_E, Eo, num_members, wb_1, wb_2, wb_3);
+    w = assign_weights(sub_ID, IDo, sub_D, Do, sub_E, Eo, num_members, params);
 
     sp = find_shortest_paths(w, num_members);
     
@@ -76,12 +76,12 @@ function sp = find_shortest_paths(w, num_members)
     
 end
 
-function w = assign_weights(sub_ID, IDo, sub_D, Do, sub_E, Eo, num_members, wb_1, wb_2, wb_3)
+function w = assign_weights(sub_ID, IDo, sub_D, Do, sub_E, Eo, num_members, params)
 
     w = zeros(size(sub_ID));
     for ii = 1:num_members
         for jj = ii+1:num_members
-            w(ii,jj) = (wb_1/IDo)*sub_ID(ii,jj) + (wb_2*Do)/sub_D(ii,jj) + (wb_3*Eo)/max(sub_E(ii),sub_E(jj));
+            w(ii,jj) = (params.wb_1/IDo)*sub_ID(ii,jj) + (params.wb_2*Do)/sub_D(ii,jj) + (params.wb_3*Eo)/max(sub_E(ii),sub_E(jj));
         end
     end
     w = w + triu(w,1)';

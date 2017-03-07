@@ -1,4 +1,4 @@
-function E = decrease_energy_availability(old_E, clusterheads, power, t, alpha)
+function E = decrease_energy_availability(old_E, clusterheads, power, params)
 % USAGE
 %  E = update_energy_availability(old_E, clusterheads, power)
 %
@@ -11,7 +11,7 @@ function E = decrease_energy_availability(old_E, clusterheads, power, t, alpha)
 %  E        - [m x 1] Updated energy availability for every device
 
 E = old_E;
-time = t*alpha;
+time = params.timeslot*params.alpha;
 
 for ii = 1:numel(clusterheads)
     E(clusterheads(ii)) = E(clusterheads(ii)) - power(ii)*time;
