@@ -46,6 +46,8 @@ clusters = create_clusters(ID, D, a, wa_1, wa_2);
 E = create_energy_availability(m);
 
 % loop through next steps
+for i = 1:10
+
 clusterheads = find_clusterheads(clusters, ID, D, E, wb_1, wb_2, wb_3);
 
 G = calculate_channel_gain(E_d);
@@ -54,4 +56,6 @@ powers_requested = find_powers_to_maximize_utility(clusters,clusterheads,G);
 
 power_from_clusterheads = find_powers_clusterheads_must_transmit(powers_requested,clusters,clusterheads, G, alpha, n);
 
-E = update_energy_availability(E, clusterheads, power_from_clusterheads, t, alpha);
+E = decrease_energy_availability(E, clusterheads, power_from_clusterheads, t, alpha);
+
+end

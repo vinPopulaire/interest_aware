@@ -1,4 +1,4 @@
-function E = update_energy_availability(old_E, clusterheads, power, t, alpha)
+function E = decrease_energy_availability(old_E, clusterheads, power, t, alpha)
 % USAGE
 %  E = update_energy_availability(old_E, clusterheads, power)
 %
