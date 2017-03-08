@@ -21,6 +21,8 @@ Io = 0.2;
 
 num_all_devices = size(G, 2);
 
+% Here we calculate Sensed Interference for all devices even though we will
+% eventually use only the Sensed Interference on clusterheads
 % Sensed Interference from all devices not just those inside cluster
 % since all contribute to the interference detected
 sensed_interference = zeros(1,num_all_devices);
@@ -51,7 +53,7 @@ for kk = 1:num_clusters
 
         % We add a '-' because the fminbnd tries to minimize the function
         % provided
-        fun = @(x)(-(W*efficiency_function(G(cluster(ii),clusterhead)*x/sensed_interference(cluster(ii)))/x));
+        fun = @(x)(-(W*efficiency_function(G(cluster(ii),clusterhead)*x/sensed_interference(clusterhead))/x));
         best_powers(cluster(ii)) = fminbnd(fun,0,100);
     end
 end
