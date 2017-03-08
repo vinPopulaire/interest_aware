@@ -22,9 +22,10 @@ m = 20;
 a = 2;
 wa_1 = 0.5;
 wa_2 = 0.5;
-wb_1 = 0.2;
-wb_2 = 0.2;
-wb_3 = 0.6;
+wb_1 = 0.5;
+wb_2 = 0.5;
+wb_3 = 0;
+wb_4 = 1;
 
 alpha = 0.8;
 n = 0.2;
@@ -33,14 +34,16 @@ timeslot = 1;
 if wa_1 + wa_2 ~= 1
     error('wa_1 and wa_2 don''t sum to 1');
 end
-
-if wb_1 + wb_2 + wb_3 ~= 1
-    error('wb_1, wb_2 and wb_3 don''t sum to 1');
+if wb_1 + wb_2 ~= 1
+    error('wb_1 and wb_2 don''t sum to 1');
+end
+if wb_3 + wb_4 ~= 1
+    error('wb_3 and wb_4 don''t sum to 1');
 end
 
 params = struct('m', m, 'a', a, 'wa_1', wa_1, 'wa_2', wa_2, 'wb_1', wb_1, ...
-                'wb_2', wb_2, 'wb_3', wb_3, 'alpha', alpha, 'n', n, ...
-                'timeslot', timeslot, 'area', area, 'min_dist', min_dist);
+                'wb_2', wb_2, 'wb_3', wb_3, 'wb_4', wb_4, 'alpha', alpha, ...
+                'n', n, 'timeslot', timeslot, 'area', area, 'min_dist', min_dist);
 
 [E_i, E_d] = create_matrices(params);
 
