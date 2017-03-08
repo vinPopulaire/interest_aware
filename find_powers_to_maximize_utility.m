@@ -18,7 +18,7 @@ previous_powers = zeros(1, num_all_devices);
 
 iter = 0;
 
-while sum(abs(current_powers-previous_powers)) > 10^-5
+while sum(abs(current_powers-previous_powers)) > 10^-5 && iter < 200
     
     previous_powers = current_powers;
    
