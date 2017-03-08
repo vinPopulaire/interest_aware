@@ -16,7 +16,9 @@ rng(6)
 %  timeslot   - time frame
 %  n          - energy conversion efficiency factor
 
-m = 200;
+area = 10;
+min_dist = 1;
+m = 20;
 a = 2;
 wa_1 = 0.5;
 wa_2 = 0.5;
@@ -38,7 +40,7 @@ end
 
 params = struct('m', m, 'a', a, 'wa_1', wa_1, 'wa_2', wa_2, 'wb_1', wb_1, ...
                 'wb_2', wb_2, 'wb_3', wb_3, 'alpha', alpha, 'n', n, ...
-                'timeslot', timeslot);
+                'timeslot', timeslot, 'area', area, 'min_dist', min_dist);
 
 [E_i, E_d] = create_matrices(params);
 

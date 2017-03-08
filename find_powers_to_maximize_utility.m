@@ -20,7 +20,7 @@ iter = 0;
 
 while sum(abs(current_powers-previous_powers)) > 10^-5
     
-    previous_powers = current_powers
+    previous_powers = current_powers;
    
     current_powers = utility_func(previous_powers, G, clusters, clusterheads);
    
