@@ -55,8 +55,9 @@ clusters = create_clusters(ID, D, params);
 E = create_energy_availability(params);
 G = calculate_channel_gain(E_d);
 
-% loop through next steps
-for i = 1:10
+round = 0;
+
+while round < 20
 
 clusterheads = find_clusterheads(clusters, ID, D, E, params);
 
@@ -66,4 +67,9 @@ power_from_clusterheads = find_powers_clusterheads_must_transmit(powers_requeste
 
 E = decrease_energy_availability(E, clusterheads, power_from_clusterheads, params);
 
+round = round + 1;
+
 end
+
+disp('Number of rounds the process was repeated');
+disp(round);
