@@ -53,13 +53,12 @@ D = -log2(E_d);
 clusters = create_clusters(ID, D, params);
 
 E = create_energy_availability(params);
+G = calculate_channel_gain(E_d);
 
 % loop through next steps
-% for i = 1:10
+for i = 1:10
 
 clusterheads = find_clusterheads(clusters, ID, D, E, params);
-
-G = calculate_channel_gain(E_d);
 
 powers_requested = find_powers_to_maximize_utility(clusters,clusterheads,G);
 
@@ -67,4 +66,4 @@ power_from_clusterheads = find_powers_clusterheads_must_transmit(powers_requeste
 
 E = decrease_energy_availability(E, clusterheads, power_from_clusterheads, params);
 
-% end
+end
