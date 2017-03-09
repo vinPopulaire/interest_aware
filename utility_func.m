@@ -15,7 +15,8 @@ function best_powers = utility_func(powers, G, clusters, clusterheads)
 
 % PARAMETERS
 % W -> bandwidth
-% Io -> constant power spectral density
+% Io -> constant power spectral density of Additive White Gaussian Noise
+%       process
 W = 10^6;
 Io = 0.2;
 
