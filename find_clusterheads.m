@@ -70,8 +70,18 @@ end
 function rating = calculate_clusterhead_strength(CC, sub_E, Eo, num_members, params)
     
     rating = zeros(1,num_members);
-    for ii = 1:num_members
-        rating(ii) = params.wb_3*CC(ii) + (params.wb_4/Eo)*sub_E(ii);
+    
+    use_linear = 1;
+    if use_linear
+        % use linear combination
+        for ii = 1:num_members
+            rating(ii) = params.wb_3*CC(ii) + (params.wb_4/Eo)*sub_E(ii);
+        end
+    else
+        % use multiplication
+        for ii = 1:num_members
+            rating(ii) = CC(ii)*sub_E(ii);
+        end
     end
 
 end
