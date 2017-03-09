@@ -1,4 +1,4 @@
-function power = find_powers_clusterheads_must_transmit(powers_requested,clusters,clusterheads, G, params)
+function power = find_powers_clusterheads_must_transmit(powers_requested,clusters,clusterheads, G, E, params)
 % USAGE
 %  power = find_powers_clusterheads_must_transmit(powers_requested,clusters,clusterheads)
 %
@@ -30,7 +30,13 @@ for kk = 1:num_clusters
         end
     end
     
-    power(kk) = max(powers_to_send); 
+    power(kk) = max(powers_to_send);
+    
+    maximum_power_clusterhead_can_send = E(clusterhead)/(params.timeslot*params.alpha);
+    
+    if power(kk) > maximum_power_clusterhead_can_send
+        power(kk) = maximum_power_clusterhead_can_send;
+    end
 end
 
 end

@@ -62,7 +62,7 @@ clusterheads = find_clusterheads(clusters, ID, D, E, params);
 
 powers_requested = find_powers_to_maximize_utility(clusters,clusterheads,G);
 
-power_from_clusterheads = find_powers_clusterheads_must_transmit(powers_requested,clusters,clusterheads, G, params);
+power_from_clusterheads = find_powers_clusterheads_must_transmit(powers_requested,clusters,clusterheads, G, E, params);
 
 E = decrease_energy_availability(E, clusterheads, power_from_clusterheads, params);
 
