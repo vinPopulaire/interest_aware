@@ -29,7 +29,7 @@ wb_4 = 1;
 
 alpha = 0.8;
 n = 0.2;
-timeslot = 1;
+timeslot = 0.0002;
 
 if wa_1 + wa_2 ~= 1
     error('wa_1 and wa_2 don''t sum to 1');
