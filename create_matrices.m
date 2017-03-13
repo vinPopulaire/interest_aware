@@ -47,9 +47,7 @@ end
 disp('Number of iterations for nicely positioned devices');
 disp(iter);
 
-max_dist = max(max(distances));
-
-matrix = distances/max_dist;
+matrix = distances;
 
 end
 

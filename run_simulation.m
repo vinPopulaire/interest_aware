@@ -24,10 +24,10 @@ wa_1 = 0.5;
 wa_2 = 0.5;
 wb_1 = 0.5;
 wb_2 = 0.5;
-wb_3 = 0;
-wb_4 = 1;
+wb_3 = 0.5;
+wb_4 = 0.5;
 
-alpha = 0.8;
+alpha = 0.5;
 n = 0.2;
 timeslot = 0.0002;
 
@@ -45,7 +45,10 @@ params = struct('m', m, 'a', a, 'wa_1', wa_1, 'wa_2', wa_2, 'wb_1', wb_1, ...
                 'wb_2', wb_2, 'wb_3', wb_3, 'wb_4', wb_4, 'alpha', alpha, ...
                 'n', n, 'timeslot', timeslot, 'area', area, 'min_dist', min_dist);
 
-[E_i, E_d] = create_matrices(params);
+[E_i, distances] = create_matrices(params);
+
+max_dist = max(max(distances));
+E_d = distances/max_dist;
 
 ID = -log2(E_i);
 D = -log2(E_d);
@@ -53,7 +56,7 @@ D = -log2(E_d);
 clusters = create_clusters(ID, D, params);
 
 E = create_energy_availability(params);
-G = calculate_channel_gain(E_d);
+G = calculate_channel_gain(distances);
 
 round = 0;
 
