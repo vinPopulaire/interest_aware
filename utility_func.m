@@ -65,7 +65,7 @@ end
 function f = efficiency_function(gamma)
 
 M = 80;
-A = 300;
+A = 10^5;
 
 f = (1-exp(-A*gamma))^M;
 
