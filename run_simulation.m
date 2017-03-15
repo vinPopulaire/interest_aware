@@ -3,33 +3,21 @@ clear;
 
 rng(6)
 
-
 % PARAMETERS
-%  m          - number of devices
-%  a          - probability for device to form own cluster
-%  wa_1       - weight for ID in cluster creation
-%  wa_2       - weight for D in cluster creation
-%  wb_1       - weight for ID in clusterhead selection
-%  wb_2       - weight for D in clusterhead selection
-%  wb_3       - weight for E in clusterhead selection
-%  alpha      - t1 = a*t, t2 = (1-a)t
-%  timeslot   - time frame
-%  n          - energy conversion efficiency factor
+area = 10;      % area x area the area where devices will be places
+min_dist = 1;   % minimum distance of devices allowed
+m = 20;         % number of devies
+a = 2;          % parameter to change probability for device to form own cluster
+wa_1 = 0.5;     % weight for ID in cluster creation
+wa_2 = 0.5;     % weight for D in cluster creation
+wb_1 = 0.5;     % weight for ID in clusterhead selection
+wb_2 = 0.5;     % weight for D in clusterhead selection
+wb_3 = 0.5;     % weight for CC in clusterhead selection
+wb_4 = 0.5;     % weight for E in clusterhead selection
 
-area = 10;
-min_dist = 1;
-m = 20;
-a = 2;
-wa_1 = 0.5;
-wa_2 = 0.5;
-wb_1 = 0.5;
-wb_2 = 0.5;
-wb_3 = 0.5;
-wb_4 = 0.5;
-
-alpha = 0.4;
-n = 0.6;
-timeslot = 0.0005;
+alpha = 0.4;    % t1 = a*t, t2 = (1-a)t
+n = 0.6;        % energy conversion efficiency factor
+timeslot = 0.0005; % time frame
 
 if wa_1 + wa_2 ~= 1
     error('wa_1 and wa_2 don''t sum to 1');
