@@ -58,9 +58,10 @@ clusters = create_clusters(ID, D, params);
 E = create_energy_availability(params);
 G = calculate_channel_gain(distances);
 
+num_rounds = 20;
 round = 0;
 
-while round < 20
+while round < num_rounds
 
 clusterheads = find_clusterheads(clusters, ID, D, E, params);
 
