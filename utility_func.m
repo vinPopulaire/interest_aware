@@ -56,6 +56,11 @@ for kk = 1:num_clusters
         % provided
         fun = @(x)(-(W*efficiency_function(G(cluster(ii),clusterhead)*x/sensed_interference(clusterhead))/x));
         best_powers(cluster(ii)) = fminbnd(fun,0,100);
+%         x = linspace(0,0.05,10000);
+%         gamma = G(cluster(ii),clusterhead).*x/sensed_interference(clusterhead);
+%         f = W*efficiency_function(gamma)./x;
+%         [M, index] = max(f);
+%         best_powers(cluster(ii)) = x(index);
     end
 end
 
