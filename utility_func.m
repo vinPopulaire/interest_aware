@@ -18,7 +18,7 @@ function best_powers = utility_func(powers, G, clusters, clusterheads)
 % Io -> constant power spectral density of Additive White Gaussian Noise
 %       process
 W = 10^6;
-Io = 0.2;
+Io = 5*10^(-15);
 
 num_all_devices = size(G, 2);
 
@@ -65,8 +65,8 @@ end
 function f = efficiency_function(gamma)
 
 M = 80;
-A = 10^5;
+A = 190;
 
-f = (1-exp(-A*gamma))^M;
+f = (1-exp(-A*gamma)).^M;
 
 end
