@@ -19,49 +19,45 @@ alpha = 0.4;    % t1 = a*t, t2 = (1-a)t
 n = 0.6;        % energy conversion efficiency factor
 timeslot = 0.0005; % time frame
 
-if wa_1 + wa_2 ~= 1
-    error('wa_1 and wa_2 don''t sum to 1');
+rounds = 10;
+
+w = cell(3);
+w{1,1} = {[0, 1] [0, 1]};
+w{1,2} = {[0, 1] [0.5, 0.5]};
+w{1,3} = {[0, 1] [1, 0]};
+w{2,1} = {[0.5, 0.5] [0, 1]};
+w{2,2} = {[0.5, 0.5] [0.5, 0.5]};
+w{2,3} = {[0.5, 0.5] [1, 0]};
+w{3,1} = {[1, 0] [0, 1]};
+w{3,2} = {[1, 0] [0.5, 0.5]};
+w{3,3} = {[1, 0] [1, 0]};
+
+total_system_energy_consumed = cell(3);
+total_power_info_transmission = cell(3);
+
+for ii = 1:size(w,2)
+for jj = 1:size(w,1)
+    
+    wa_1 = w{ii,jj}{1}(1);
+    wa_2 = w{ii,jj}{1}(2);
+    wb_1 = w{ii,jj}{2}(1);
+    wb_2 = w{ii,jj}{2}(2);
+
+    if wa_1 + wa_2 ~= 1
+        error('wa_1 and wa_2 don''t sum to 1');
+    end
+    if wb_1 + wb_2 ~= 1
+        error('wb_1 and wb_2 don''t sum to 1');
+    end
+    if wb_3 + wb_4 ~= 1
+        error('wb_3 and wb_4 don''t sum to 1');
+    end
+
+    params = struct('m', m, 'a', a, 'wa_1', wa_1, 'wa_2', wa_2, 'wb_1', wb_1, ...
+                    'wb_2', wb_2, 'wb_3', wb_3, 'wb_4', wb_4, 'alpha', alpha, ...
+                    'n', n, 'timeslot', timeslot, 'area', area, ...
+                    'min_dist', min_dist, 'rounds',rounds);
+
+    [total_system_energy_consumed{ii,jj}, total_power_info_transmission{ii,jj}] = interest_aware_simulation(params);
 end
-if wb_1 + wb_2 ~= 1
-    error('wb_1 and wb_2 don''t sum to 1');
 end
-if wb_3 + wb_4 ~= 1
-    error('wb_3 and wb_4 don''t sum to 1');
-end
-
-params = struct('m', m, 'a', a, 'wa_1', wa_1, 'wa_2', wa_2, 'wb_1', wb_1, ...
-                'wb_2', wb_2, 'wb_3', wb_3, 'wb_4', wb_4, 'alpha', alpha, ...
-                'n', n, 'timeslot', timeslot, 'area', area, 'min_dist', min_dist);
-
-[E_i, distances] = create_matrices(params);
-
-max_dist = max(max(distances));
-E_d = distances/max_dist;
-
-ID = -log2(E_i);
-D = -log2(E_d);
-
-clusters = create_clusters(ID, D, params);
-
-E = create_energy_availability(params);
-G = calculate_channel_gain(distances);
-
-num_rounds = 20;
-round = 0;
-
-while round < num_rounds
-
-clusterheads = find_clusterheads(clusters, ID, D, E, params);
-
-powers_requested = find_powers_to_maximize_utility(clusters,clusterheads,G);
-
-power_from_clusterheads = find_powers_clusterheads_must_transmit(powers_requested,clusters,clusterheads, G, E, params);
-
-E = decrease_energy_availability(E, clusterheads, power_from_clusterheads, params);
-
-round = round + 1;
-
-end
-
-disp('Number of rounds the process was repeated');
-disp(round);
