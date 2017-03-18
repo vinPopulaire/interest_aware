@@ -34,11 +34,11 @@ for round = 1:num_rounds
     % calculate energy after information transmission of clusterheads first 
     % so that they give priority to their transmission instead of sending power
     % to other devices
-    E = decrease_energy_availability_from_info_transmission(E, clusterheads, powers_info_transmission, params);
+    E = decrease_energy_availability(E, clusterheads, powers_info_transmission, 'info', params);
 
     power_from_clusterheads = find_powers_clusterheads_must_transmit(powers_requested,clusters,clusterheads, G, E, params);
 
-    E = decrease_energy_availability_from_energy_transmission(E, clusterheads, power_from_clusterheads, params);
+    E = decrease_energy_availability(E, clusterheads, power_from_clusterheads, 'energy', params);
     powers_info_transmission = find_powers_devices_will_actually_send(powers_info_transmission, power_from_clusterheads, powers_requested, clusters, clusterheads, G, params);
 
     round_power_info_transmission(round) = sum(powers_info_transmission);
