@@ -36,6 +36,10 @@ while bad_positions
     x = params.area*rand(params.m,1);
     y = params.area*rand(params.m,1);
     
+    % position BaseStation
+    x(params.m+1) = params.area/2;
+    y(params.m+1) = params.area+params.area/2;
+    
     [min_dist,distances] = calculate_distances(x,y);
     
     if min_dist > params.min_dist
