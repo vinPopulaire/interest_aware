@@ -1,4 +1,4 @@
-function E = decrease_energy_availability(old_E, clusterheads, power, params)
+function E = decrease_energy_availability_from_energy_transmission(old_E, clusterheads, power, params)
 % USAGE
 %  E = update_energy_availability(old_E, clusterheads, power)
 %
