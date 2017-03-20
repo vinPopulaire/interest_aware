@@ -1,20 +1,10 @@
-function [total_system_energy_consumed, total_power_info_transmission] = interest_aware_simulation(params)
+function [total_system_energy_consumed, total_power_info_transmission] = interest_aware_simulation(D, ID, E, G, params)
 
 % Interest aware simulation
 
-[E_i, distances] = create_matrices(params);
-
-max_dist = max(max(distances(1:params.m,1:params.m)));
-E_d = distances(1:params.m,1:params.m)/max_dist;
-
-ID = -log2(E_i);
-D = -log2(E_d);
+total_energy = sum(E);
 
 clusters = create_clusters(ID, D, params);
-
-E = create_energy_availability(params);
-total_energy = sum(E);
-G = calculate_channel_gain(distances);
 
 num_rounds = params.rounds;
 

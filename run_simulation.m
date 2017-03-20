@@ -12,8 +12,8 @@ wa_1 = 0.5;     % weight for ID in cluster creation
 wa_2 = 0.5;     % weight for D in cluster creation
 wb_1 = 0.5;     % weight for ID in clusterhead selection
 wb_2 = 0.5;     % weight for D in clusterhead selection
-wb_3 = 0.5;     % weight for CC in clusterhead selection
-wb_4 = 0.5;     % weight for E in clusterhead selection
+wb_3 = 1;     % weight for CC in clusterhead selection
+wb_4 = 0;     % weight for E in clusterhead selection
 
 alpha = 0.4;    % t1 = a*t, t2 = (1-a)t
 n = 0.6;        % energy conversion efficiency factor
@@ -34,6 +34,16 @@ w{3,3} = {[1, 0] [1, 0]};
 
 total_system_energy_consumed = cell(3);
 total_power_info_transmission = cell(3);
+            
+[E_i, distances] = create_matrices(struct('area',area,'m',m, 'min_dist',min_dist));
+
+max_dist = max(max(distances(1:m,1:m)));
+E_d = distances(1:m,1:m)/max_dist;
+
+ID = -log2(E_i);
+D = -log2(E_d);
+
+G = calculate_channel_gain(distances);
 
 for ii = 1:size(w,2)
 for jj = 1:size(w,1)
@@ -57,7 +67,9 @@ for jj = 1:size(w,1)
                     'wb_2', wb_2, 'wb_3', wb_3, 'wb_4', wb_4, 'alpha', alpha, ...
                     'n', n, 'timeslot', timeslot, 'area', area, ...
                     'min_dist', min_dist, 'rounds',rounds);
+                
+    E = create_energy_availability(params);
 
-    [total_system_energy_consumed{ii,jj}, total_power_info_transmission{ii,jj}] = interest_aware_simulation(params);
+    [total_system_energy_consumed{ii,jj}, total_power_info_transmission{ii,jj}] = interest_aware_simulation(D, ID, E, G, params);
 end
 end
