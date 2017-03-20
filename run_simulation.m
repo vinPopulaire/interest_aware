@@ -1,7 +1,12 @@
 clc;
 clear;
 
-rng(6)
+% rng(6)
+num_repetitions = 100;
+total_system_energy_consumed = cell(num_repetitions,1);
+total_power_info_transmission = cell(num_repetitions,1);
+
+for random_repetition = 1:num_repetitions
 
 % PARAMETERS
 area = 10;      % area x area the area where devices will be places
@@ -19,7 +24,7 @@ alpha = 0.4;    % t1 = a*t, t2 = (1-a)t
 n = 0.6;        % energy conversion efficiency factor
 timeslot = 0.0005; % time frame
 
-rounds = 10;
+rounds = 20;
 
 w = cell(3);
 w{1,1} = {[0, 1] [0, 1]};
@@ -32,8 +37,8 @@ w{3,1} = {[1, 0] [0, 1]};
 w{3,2} = {[1, 0] [0.5, 0.5]};
 w{3,3} = {[1, 0] [1, 0]};
 
-total_system_energy_consumed = cell(3);
-total_power_info_transmission = cell(3);
+total_system_energy_consumed{random_repetition} = cell(3);
+total_power_info_transmission{random_repetition} = cell(3);
             
 [E_i, distances] = create_matrices(struct('area',area,'m',m, 'min_dist',min_dist));
 
@@ -70,6 +75,8 @@ for jj = 1:size(w,1)
                 
     E = create_energy_availability(params);
 
-    [total_system_energy_consumed{ii,jj}, total_power_info_transmission{ii,jj}] = interest_aware_simulation(D, ID, E, G, params);
+    [total_system_energy_consumed{random_repetition}{ii,jj}, total_power_info_transmission{random_repetition}{ii,jj}] = interest_aware_simulation(D, ID, E, G, params);
 end
+end
+
 end
