@@ -54,13 +54,16 @@ for kk = 1:num_clusters
 
         % We add a '-' because the fminbnd tries to minimize the function
         % provided
-        fun = @(x)(-(W*efficiency_function(G(cluster(ii),clusterhead)*x/sensed_interference(clusterhead))/x));
-        best_powers(cluster(ii)) = fminbnd(fun,0,100);
-%         x = linspace(0,0.05,10000);
-%         gamma = G(cluster(ii),clusterhead).*x/sensed_interference(clusterhead);
-%         f = W*efficiency_function(gamma)./x;
-%         [M, index] = max(f);
-%         best_powers(cluster(ii)) = x(index);
+        
+%         fun = @(x)(-(W*efficiency_function(G(cluster(ii),clusterhead)*x/sensed_interference(clusterhead))/x));
+%         best_powers(cluster(ii)) = fminbnd(fun,0,1);
+
+        x = linspace(0,0.005,100000);
+        gamma = G(cluster(ii),clusterhead).*x/sensed_interference(clusterhead);
+        f = W*efficiency_function(gamma)./x;
+        [M, index] = max(f);
+        best_powers(cluster(ii)) = x(index);
+
     end
 end
 
@@ -70,7 +73,7 @@ end
 function f = efficiency_function(gamma)
 
 M = 80;
-A = 190;
+A = 290;
 
 f = (1-exp(-A*gamma)).^M;
 
