@@ -1,7 +1,7 @@
 clc;
 clear;
 
-% rng(6)
+rng(6)
 num_repetitions = 100;
 total_system_energy_consumed = cell(num_repetitions,1);
 total_power_info_transmission = cell(num_repetitions,1);
@@ -13,10 +13,10 @@ area = 10;      % area x area the area where devices will be places
 min_dist = 1;   % minimum distance of devices allowed
 m = 20;         % number of devies
 a = 2;          % parameter to change probability for device to form own cluster
-wa_1 = 0.5;     % weight for ID in cluster creation
-wa_2 = 0.5;     % weight for D in cluster creation
-wb_1 = 0.5;     % weight for ID in clusterhead selection
-wb_2 = 0.5;     % weight for D in clusterhead selection
+% wa_1 = 0.5;     % weight for ID in cluster creation
+% wa_2 = 0.5;     % weight for D in cluster creation
+% wb_1 = 0.5;     % weight for ID in clusterhead selection
+% wb_2 = 0.5;     % weight for D in clusterhead selection
 wb_3 = 1;     % weight for CC in clusterhead selection
 wb_4 = 0;     % weight for E in clusterhead selection
 
