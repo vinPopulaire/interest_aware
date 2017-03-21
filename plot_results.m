@@ -2,6 +2,8 @@ for repetition = 1:size(total_system_energy_consumed,1)
 
 % repetition = 1;
 
+subfolder = '0.2';
+
 figure;
 hold on;
 
@@ -11,10 +13,10 @@ plot(1:rounds,total_system_energy_consumed{repetition}{2,2},'g','DisplayName','b
 plot(1:rounds,total_system_energy_consumed{repetition}{3,3},'r','DisplayName','interest');
 legend('show')
 
-printpdf(['figures/', num2str(repetition), 'a']);
+printpdf(['figures/', subfolder, '/', num2str(repetition), 'a']);
 
 set(gcf, 'PaperPositionMode','auto')
-print('-dpng',['figures/energy', num2str(repetition), 'a'])
+print('-dpng',['figures/', subfolder, '/energy', num2str(repetition), 'a'])
 
 figure;
 hold on;
@@ -24,10 +26,10 @@ plot(1:rounds,total_power_info_transmission{repetition}{2,2},'g','DisplayName','
 plot(1:rounds,total_power_info_transmission{repetition}{3,3},'r','DisplayName','interest');
 legend('show')
 
-printpdf(['figures/', num2str(repetition), 'b']);
+printpdf(['figures/', subfolder, num2str(repetition), 'b']);
 
 set(gcf, 'PaperPositionMode','auto')
-print('-dpng',['figures/power', num2str(repetition), 'b'])
+print('-dpng',['figures/', subfolder, '/power', num2str(repetition), 'b'])
 
 close all
 
