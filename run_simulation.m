@@ -2,7 +2,7 @@ clc;
 clear;
 
 rng(6)
-num_repetitions = 100;
+num_repetitions = 1000;
 total_system_energy_consumed = cell(num_repetitions,1);
 total_power_info_transmission = cell(num_repetitions,1);
 
@@ -20,22 +20,28 @@ a = 2;          % parameter to change probability for device to form own cluster
 wb_3 = 1;     % weight for CC in clusterhead selection
 wb_4 = 0;     % weight for E in clusterhead selection
 
+balance = 0.5;
+
 alpha = 0.4;    % t1 = a*t, t2 = (1-a)t
 n = 0.6;        % energy conversion efficiency factor
 timeslot = 0.0005; % time frame
 
-rounds = 20;
+rounds = 2;
 
 w = cell(3);
 w{1,1} = {[0, 1] [0, 1]};
-w{1,2} = {[0, 1] [0.5, 0.5]};
+w{1,2} = {[0, 1] [balance, 1-balance]};
 w{1,3} = {[0, 1] [1, 0]};
-w{2,1} = {[0.5, 0.5] [0, 1]};
-w{2,2} = {[0.5, 0.5] [0.5, 0.5]};
-w{2,3} = {[0.5, 0.5] [1, 0]};
+w{2,1} = {[balance, 1-balance] [0, 1]};
+w{2,2} = {[balance, 1-balance] [balance, 1-balance]};
+w{2,3} = {[balance, 1-balance] [1, 0]};
 w{3,1} = {[1, 0] [0, 1]};
-w{3,2} = {[1, 0] [0.5, 0.5]};
+w{3,2} = {[1, 0] [balance, 1-balance]};
 w{3,3} = {[1, 0] [1, 0]};
+
+% w{1,1} = {[balance, 1-balance] [balance, 1-balance]};
+% w{2,2} = {[balance, 1-balance] [balance, 1-balance]};
+% w{3,3} = {[balance, 1-balance] [balance, 1-balance]};
 
 total_system_energy_consumed{random_repetition} = cell(3);
 total_power_info_transmission{random_repetition} = cell(3);
@@ -51,7 +57,11 @@ D = -log2(E_d);
 G = calculate_channel_gain(distances);
 
 for ii = 1:size(w,2)
-for jj = 1:size(w,1)
+for jj = 1:size(w,1) 
+    
+    if ii ~= jj
+        continue;
+    end
     
     wa_1 = w{ii,jj}{1}(1);
     wa_2 = w{ii,jj}{1}(2);
@@ -80,3 +90,5 @@ end
 end
 
 end
+
+save(['results', num2str(balance), '_', num2str(num_repetitions), '.mat'], 'total_system_energy_consumed', 'total_power_info_transmission');
