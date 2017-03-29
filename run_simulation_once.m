@@ -19,7 +19,7 @@ alpha = 0.4;    % t1 = a*t, t2 = (1-a)t
 n = 0.6;        % energy conversion efficiency factor
 timeslot = 0.0005; % time frame
 
-rounds = 10;
+rounds = 2;
 
 % w = {[0.5, 0.5] [0.5, 0.5]};
 % w = {[0, 1] [0, 1]};
