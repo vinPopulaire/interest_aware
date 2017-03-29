@@ -2,7 +2,7 @@ for repetition = 1:size(total_system_energy_consumed,1)
 
 % repetition = 1;
 
-subfolder = '0.2';
+subfolder = [num2str(balance), '_', num2str(num_repetitions)];
 
 figure;
 hold on;
@@ -26,7 +26,7 @@ plot(1:rounds,total_power_info_transmission{repetition}{2,2},'g','DisplayName','
 plot(1:rounds,total_power_info_transmission{repetition}{3,3},'r','DisplayName','interest');
 legend('show')
 
-printpdf(['figures/', subfolder, num2str(repetition), 'b']);
+printpdf(['figures/', subfolder, '/', num2str(repetition), 'b']);
 
 set(gcf, 'PaperPositionMode','auto')
 print('-dpng',['figures/', subfolder, '/power', num2str(repetition), 'b'])
