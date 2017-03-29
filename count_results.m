@@ -9,9 +9,9 @@ parameter = total_system_energy_consumed;
 
 for repetition = 1:size(parameter,1)
     
-    d = parameter{repetition}{1,1}(20);
-    b = parameter{repetition}{2,2}(20);
-    i = parameter{repetition}{3,3}(20);
+    d = parameter{repetition}{1,1}(rounds);
+    b = parameter{repetition}{2,2}(rounds);
+    i = parameter{repetition}{3,3}(rounds);
     
     if d > b
         if i > d
