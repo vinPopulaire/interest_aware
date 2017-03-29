@@ -10,19 +10,41 @@ function [E_i,E_d]=create_matrices(params)
 %  E_i        - [m x m] Interest Distance graph weights
 %  E_d        - [m x m] Physical Distance graph weights
 
-E_i = create_level_of_interest_matrix(params);
+case_type = 'random_case';
+
 E_d = create_distance_matrix(params);
+E_i = create_level_of_interest_matrix(E_d, case_type, params);
 
 end
 
 
-function matrix = create_level_of_interest_matrix(params)
+function matrix = create_level_of_interest_matrix(E_d, case_type, params)
 
-% random values on matrix
-a = rand(params.m,params.m);
+if strcmp(case_type,'random_case')
 
-% make matrix symmetric with 0 on the diagonal
-matrix = triu(a,1) + triu(a,1)';
+    % random values on matrix
+    a = rand(params.m,params.m);
+
+    % make matrix symmetric with 0 on the diagonal
+    matrix = triu(a,1) + triu(a,1)';
+    
+elseif strcmp(case_type,'best_case')
+    % Devices that are close (small distance) have high interest
+    max_dist = max(max(E_d(1:params.m,1:params.m)));
+    E_d_norm = E_d(1:params.m,1:params.m)/max_dist;
+    
+    matrix = 1-E_d_norm;
+    
+elseif strcmp(case_type,'worst_case')
+    % Devices that are close (small distance) have low interest
+    max_dist = max(max(E_d(1:params.m,1:params.m)));
+    E_d_norm = E_d(1:params.m,1:params.m)/max_dist;
+    
+    matrix = E_d_norm;
+    
+else
+    error('Unknown case for interest matrix creation');
+end
 
 end
 
