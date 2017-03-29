@@ -58,11 +58,18 @@ for kk = 1:num_clusters
 %         fun = @(x)(-(W*efficiency_function(G(cluster(ii),clusterhead)*x/sensed_interference(clusterhead))/x));
 %         best_powers(cluster(ii)) = fminbnd(fun,0,1);
 
-        x = linspace(0,0.005,100000);
+%         x = linspace(0,0.005,100000);
+        x = linspace(0,max(powers),10000);
         gamma = G(cluster(ii),clusterhead).*x/sensed_interference(clusterhead);
         f = W*efficiency_function(gamma)./x;
         [M, index] = max(f);
         best_powers(cluster(ii)) = x(index);
+
+%         syms x;
+%         gamma = G(cluster(ii),clusterhead)*x/sensed_interference(clusterhead);
+%         f = W*efficiency_function(gamma)/x;
+%         g = diff(f);
+%         best_powers(cluster(ii))= max(double(solve(g,x, 'Real', true)));
 
     end
 end
@@ -76,5 +83,6 @@ M = 80;
 A = 290;
 
 f = (1-exp(-A*gamma)).^M;
+% f = (1-exp(-A*gamma))^M;
 
 end
