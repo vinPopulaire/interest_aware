@@ -5,6 +5,9 @@ rng(6)
 num_repetitions = 1000;
 total_system_energy_consumed = cell(num_repetitions,1);
 total_power_info_transmission = cell(num_repetitions,1);
+metric_iaf1 = cell(num_repetitions,1);
+metric_iaf2 = cell(num_repetitions,1);
+all_clusters = cell(num_repetitions,1);
 
 for random_repetition = 1:num_repetitions
 
@@ -45,6 +48,8 @@ w{3,3} = {[1, 0] [1, 0]};
 
 total_system_energy_consumed{random_repetition} = cell(3);
 total_power_info_transmission{random_repetition} = cell(3);
+metric_iaf1{random_repetition} = cell(3);
+metric_iaf2{random_repetition} = cell(3);
             
 [E_i, distances] = create_matrices(struct('area',area,'m',m, 'min_dist',min_dist));
 
@@ -85,10 +90,10 @@ for jj = 1:size(w,1)
                 
     E = create_energy_availability(params);
 
-    [total_system_energy_consumed{random_repetition}{ii,jj}, total_power_info_transmission{random_repetition}{ii,jj}] = interest_aware_simulation(D, ID, E, G, params);
+    [all_clusters{random_repetition}{ii,jj}, total_system_energy_consumed{random_repetition}{ii,jj}, total_power_info_transmission{random_repetition}{ii,jj}, metric_iaf1{random_repetition}{ii,jj}, metric_iaf2{random_repetition}{ii,jj}] = interest_aware_simulation(D, ID, E, E_i, G, params);
 end
 end
 
 end
 
-save(['results', num2str(balance), '_', num2str(num_repetitions), '.mat'], 'total_system_energy_consumed', 'total_power_info_transmission');
+save(['results', num2str(balance), '_', num2str(num_repetitions), '.mat'], 'total_system_energy_consumed', 'total_power_info_transmission', 'metric_iaf1', 'metric_iaf2', 'all_clusters');

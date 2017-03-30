@@ -21,9 +21,9 @@ timeslot = 0.0005; % time frame
 
 rounds = 2;
 
-w = {[0.5, 0.5] [0.5, 0.5]};
+% w = {[0.5, 0.5] [0.5, 0.5]};
 % w = {[0, 1] [0, 1]};
-% w = {[1, 0] [1, 0]};
+w = {[1, 0] [1, 0]};
 
 wa_1 = w{1}(1);
 wa_2 = w{1}(2);
@@ -57,4 +57,4 @@ D = -log2(E_d);
 E = create_energy_availability(params);
 G = calculate_channel_gain(distances);
 
-[total_system_energy_consumed, total_power_info_transmission] = interest_aware_simulation(D, ID, E, G, params);
+[clusters, total_system_energy_consumed, total_power_info_transmission, metric_iaf1, metric_iaf2] = interest_aware_simulation(D, ID, E, E_i, G, params);

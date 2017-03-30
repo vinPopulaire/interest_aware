@@ -1,4 +1,4 @@
-function [total_system_energy_consumed, total_power_info_transmission] = interest_aware_simulation(D, ID, E, G, params)
+function [clusters, total_system_energy_consumed, total_power_info_transmission, metric_iaf1, metric_iaf2] = interest_aware_simulation(D, ID, E, E_i, G, params)
 
 % Interest aware simulation
 
@@ -10,6 +10,8 @@ num_rounds = params.rounds;
 
 round_power_info_transmission = zeros(num_rounds,1);
 total_system_energy_consumed = zeros(num_rounds,1);
+round_metric_iaf1 = zeros(num_rounds,1);
+round_metric_iaf2 = zeros(num_rounds,1);
 
 for round = 1:num_rounds
 
@@ -34,8 +36,12 @@ for round = 1:num_rounds
     round_power_info_transmission(round) = sum(powers_info_transmission);
 
     total_system_energy_consumed(round) = total_energy - sum(E);
+    
+    [round_metric_iaf1(round), round_metric_iaf2(round)] = calculate_metric_with_interest(powers_info_transmission, E_i, clusters, clusterheads);
 end
 
+metric_iaf1 = cumsum(round_metric_iaf1);
+metric_iaf2 = cumsum(round_metric_iaf2);
 total_power_info_transmission = cumsum(round_power_info_transmission);
 
 disp('Number of rounds the process was repeated');
