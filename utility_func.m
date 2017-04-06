@@ -26,15 +26,15 @@ num_all_devices = size(G, 2);
 % eventually use only the Sensed Interference on clusterheads
 % Sensed Interference from all devices not just those inside cluster
 % since all contribute to the interference detected
-sensed_interference = zeros(1,num_all_devices);
+sensed_power = zeros(1,num_all_devices);
 for ii = 1:num_all_devices
     for jj = 1:num_all_devices
         % TODO check if removing the if changes the result
         if ii ~= jj
-            sensed_interference(ii) = sensed_interference(ii) + G(ii,jj)*powers(jj);
+            sensed_power(ii) = sensed_power(ii) + G(ii,jj)*powers(jj);
         end
     end
-    sensed_interference(ii) = sensed_interference(ii) + Io;
+    sensed_power(ii) = sensed_power(ii) + Io;
 end
 
 best_powers = zeros(1,num_all_devices);
@@ -55,32 +55,50 @@ for kk = 1:num_clusters
         % We add a '-' because the fminbnd tries to minimize the function
         % provided
         
-%         fun = @(x)(-(W*efficiency_function(G(cluster(ii),clusterhead)*x/sensed_interference(clusterhead))/x));
-%         best_powers(cluster(ii)) = fminbnd(fun,0,1);
+        options = optimset('MaxFunEvals',100,'MaxIter',100,'TolX',10^-12);
+        sensed_interference = sensed_power(clusterhead)-(G(cluster(ii),clusterhead)*powers(cluster(ii)));
+        fun = @(x)(-(W*f(G(cluster(ii),clusterhead)*x/sensed_interference)/x));
+        best_powers(cluster(ii)) = fminbnd(fun,0,max(powers)*6,options);
 
-%         x = linspace(0,0.005,100000);
-        x = linspace(0,max(powers),10000);
-        gamma = G(cluster(ii),clusterhead).*x/sensed_interference(clusterhead);
-        f = W*efficiency_function(gamma)./x;
-        [M, index] = max(f);
-        best_powers(cluster(ii)) = x(index);
+%         x = linspace(0,0.0001,10000);
+%         x = linspace(0,max(powers)*2,10000);
+%         sensed_interference = sensed_power(clusterhead)-(G(cluster(ii),clusterhead)*powers(cluster(ii)));
+%         gamma = G(cluster(ii),clusterhead).*x/sensed_interference;
+%         f = W*f(gamma)./x;
+%         [M, index] = max(f);
+%         best_powers(cluster(ii)) = x(index);
 
 %         syms x;
-%         gamma = G(cluster(ii),clusterhead)*x/sensed_interference(clusterhead);
-%         f = W*efficiency_function(gamma)/x;
+%         gamma = (G(cluster(ii),clusterhead)*x)/(sensed_power(clusterhead)-(G(cluster(ii),clusterhead)*powers(cluster(ii))));
+%         f = W*f(gamma)/x;
 %         g = diff(f);
 %         best_powers(cluster(ii))= max(double(solve(g,x, 'Real', true)));
 
     end
+    
+%         figure
+%         plot(x,f);
 end
 
 end
 
 
-function f = efficiency_function(gamma)
+function f = f(gamma)
+% 
+% M = 800;
+% A = 170;
 
-M = 80;
-A = 290;
+
+M = 800;
+A = 550;
+
+% converge se 0.4*10^-4 se 3671 iterations
+% M = 80;
+% A = 118.2;
+
+% converge se 0.7*10^-4 se 6469 iterations
+% M = 80;
+% A = 118.1;
 
 f = (1-exp(-A*gamma)).^M;
 % f = (1-exp(-A*gamma))^M;
