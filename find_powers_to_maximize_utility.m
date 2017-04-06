@@ -10,7 +10,7 @@ function powers = find_powers_to_maximize_utility(clusters,clusterheads, G)
 % OUTPUTS
 %  powers      - [1 x y] array with powers needed for transmission
 
-
+num_iterations_for_convergence = 4000;
 error_for_convergence = 10^-15;
 num_all_devices = size(G,2);
 
@@ -31,8 +31,15 @@ iter = 0;
 % end
 
 converged = zeros(1,num_all_devices);
-while ~all(converged)
-    previous_powers = current_powers
+while ~all(converged) && iter < num_iterations_for_convergence
+    if sum(previous_powers) > 1
+        for ii = 1:num_all_devices
+            current_powers(ii) = 0;
+        end
+        break;
+    end
+    
+    previous_powers = current_powers;
    
     current_powers = utility_func(previous_powers, G, clusters, clusterheads);
    

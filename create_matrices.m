@@ -10,7 +10,7 @@ function [E_i,E_d]=create_matrices(params)
 %  E_i        - [m x m] Interest Distance graph weights
 %  E_d        - [m x m] Physical Distance graph weights
 
-case_type = 'random_case';
+case_type = params.case_type;
 
 E_d = create_distance_matrix(params);
 E_i = create_level_of_interest_matrix(E_d, case_type, params);

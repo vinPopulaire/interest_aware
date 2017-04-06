@@ -20,6 +20,12 @@ for round = 1:num_rounds
     master_cluster = [clusterheads, params.m+1];
 
     powers_requested = find_powers_to_maximize_utility([clusters master_cluster],[clusterheads params.m+1],G);
+    % if powers increase without converging break and use total_power to
+    % try an other topology instead
+    if sum(powers_requested) == 0
+        total_system_energy_consumed(num_rounds) = 0;
+        break;
+    end
 
     powers_info_transmission = find_powers_to_send_info(powers_requested, clusterheads, E, params);
 

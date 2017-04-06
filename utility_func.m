@@ -90,7 +90,7 @@ function f = f(gamma)
 
 
 M = 800;
-A = 550;
+A = 1000;
 
 % converge se 0.4*10^-4 se 3671 iterations
 % M = 80;
