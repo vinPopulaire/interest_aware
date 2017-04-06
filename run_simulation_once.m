@@ -4,26 +4,26 @@ clear;
 rng(6)
 
 % PARAMETERS
-area = 10;      % area x area the area where devices will be places
-min_dist = 1;   % minimum distance of devices allowed
-m = 20;         % number of devies
+area = 500;      % area x area the area where devices will be places
+min_dist = 10;   % minimum distance of devices allowed
+m = 50;
 a = 2;          % parameter to change probability for device to form own cluster
 wa_1 = 0.5;     % weight for ID in cluster creation
 wa_2 = 0.5;     % weight for D in cluster creation
 wb_1 = 0.5;     % weight for ID in clusterhead selection
 wb_2 = 0.5;     % weight for D in clusterhead selection
-wb_3 = 1;     % weight for CC in clusterhead selection
-wb_4 = 0;     % weight for E in clusterhead selection
+wb_3 = 0.5;     % weight for CC in clusterhead selection
+wb_4 = 0.5;     % weight for E in clusterhead selection
 
 alpha = 0.4;    % t1 = a*t, t2 = (1-a)t
 n = 0.6;        % energy conversion efficiency factor
 timeslot = 0.0005; % time frame
 
-rounds = 2;
+rounds = 3;
 
-% w = {[0.5, 0.5] [0.5, 0.5]};
+w = {[0.5, 0.5] [0.5, 0.5]};
 % w = {[0, 1] [0, 1]};
-w = {[1, 0] [1, 0]};
+% w = {[1, 0] [1, 0]};
 
 wa_1 = w{1}(1);
 wa_2 = w{1}(2);
