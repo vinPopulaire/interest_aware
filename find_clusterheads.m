@@ -54,7 +54,8 @@ for ii = 1:c
 
     sp = find_shortest_paths(w, num_members);
     
-    CC = find_centralities(sp, num_members);
+%     CC = find_centralities(sp, num_members);
+    CC = find_centralities(w, num_members);
     
     rating = calculate_clusterhead_strength(CC, sub_E, Eo, num_members, params);
     

@@ -55,7 +55,7 @@ for kk = 1:num_clusters
         % We add a '-' because the fminbnd tries to minimize the function
         % provided
         
-        options = optimset('MaxFunEvals',100,'MaxIter',100,'TolX',10^-12);
+        options = optimset('MaxFunEvals',100,'MaxIter',100,'TolX',10^-14);
         sensed_interference = sensed_power(clusterhead)-(G(cluster(ii),clusterhead)*powers(cluster(ii)));
         fun = @(x)(-(W*f(G(cluster(ii),clusterhead)*x/sensed_interference)/x));
         best_powers(cluster(ii)) = fminbnd(fun,0,max(powers)*6,options);
@@ -79,7 +79,8 @@ for kk = 1:num_clusters
 %         figure
 %         plot(x,f);
 end
-
+% figure
+% fplot(fun,[0 max(powers)*6]);
 end
 
 
@@ -90,7 +91,7 @@ function f = f(gamma)
 
 
 M = 800;
-A = 1000;
+A = 1400;
 
 % converge se 0.4*10^-4 se 3671 iterations
 % M = 80;

@@ -1,4 +1,4 @@
-function [metric_iaf1, metric_iaf2] = calculate_metric_with_interest(powers, E_i, clusters, clusterheads)
+function [metric_iaf1, metric_iaf2, iaf1, iaf2] = calculate_metric_with_interest(powers, E_i, clusters, clusterheads)
 % USAGE
 %  [metric_iaf1, metric_iaf2] = calculate_metric_with_interest(powers, ID, clusters, clusterheads);
 %
@@ -12,8 +12,13 @@ function [metric_iaf1, metric_iaf2] = calculate_metric_with_interest(powers, E_i
 
 num_clusters = size(clusters, 2);
 
+% % because I don't want to count the basestation
+% num_all_devices = size(powers, 2) - 1;
+
 metric_iaf1 = zeros(num_clusters,1);
 metric_iaf2 = zeros(num_clusters,1);
+iaf1 = zeros(num_clusters,1);
+iaf2 = zeros(num_clusters,1);
 
 E_i(isinf(E_i)) = 0;
 
@@ -33,13 +38,17 @@ for kk = 1:num_clusters
     
     IAF1 = num_devices - sum(sub_E_i(:,clusterhead_index));
     
-    metric_iaf1(kk) = powers(clusterhead)*IAF1;
+    iaf1(kk) = IAF1;
+    metric_iaf1(kk) = powers(clusterhead)*iaf1(kk);
     
-    IAF2 = num_devices*(num_devices-1) - sum(sum(sub_E_i)) + 1;
+    IAF2 = sqrt(num_devices*(num_devices-1) - sum(sum(sub_E_i)));
     
-    metric_iaf2(kk) = powers(clusterhead)*IAF2;
+    iaf2(kk) = IAF2;
+    metric_iaf2(kk) = powers(clusterhead)*iaf2(kk);
 end
 
+iaf1 = sum(iaf1);
+iaf2 = sum(iaf2);
 metric_iaf1 = sum(metric_iaf1);
 metric_iaf2 = sum(metric_iaf2);
 

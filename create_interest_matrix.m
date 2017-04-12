@@ -14,6 +14,7 @@ elseif strcmp(params.case_type,'best_case')
     E_d = distances(1:params.m,1:params.m)/max_dist;
     
     E_i = 1-E_d;
+    E_i(E_i == 1) = 0.9999;
     
 elseif strcmp(params.case_type,'worst_case')
     % Devices that are close (small distance) have low interest
@@ -21,6 +22,7 @@ elseif strcmp(params.case_type,'worst_case')
     E_d = distances(1:params.m,1:params.m)/max_dist;
     
     E_i = E_d;
+    E_i(E_i == 1) = 0.9999;
     
 else
     error('Unknown case for interest matrix creation');

@@ -92,4 +92,4 @@ end
 
 end
 
-save(['results', '_balanced_cases', '_repetitions_', num2str(num_repetitions), '_rounds_', num2str(rounds), '.mat'], 'total_system_energy_consumed', 'total_power_info_transmission', 'metric_iaf1', 'metric_iaf2', 'all_clusters');
+save(['results', '_balanced_cases', '_m_', num2str(m), '_repetitions_', num2str(num_repetitions), '_rounds_', num2str(rounds), '.mat'], 'total_system_energy_consumed', 'total_power_info_transmission', 'metric_iaf1', 'metric_iaf2', 'all_clusters');
