@@ -1,6 +1,5 @@
 # interest_aware
 Code for Interest-aware Energy Collection &amp; Resource Management in Machine to Machine Communications paper's simulation results: https://www.sciencedirect.com/science/article/pii/S1570870517301683
-Resource-based Pricing and User Risk-awareness Approach paper's simulation results. https://www.mdpi.com/1424-8220/20/8/2434/pdf
 
 ## Abstract
 
